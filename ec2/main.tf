@@ -167,8 +167,8 @@ resource "aws_instance" "web-server" {
  sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/scheduled-task.sh
  sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/script.sh
  sudo chmod +x script.sh scheduled-task.sh
- sudo docker build -t apachemodified .
- sudo docker run -d --name apache-server -p 80:80 apachemodified
+ sudo docker build -t apacheserver .
+ sudo docker run -d --name apache-server -p 80:80 apacheserver
  
 
  EOF
@@ -207,8 +207,8 @@ resource "aws_instance" "web-page" {
  sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/scheduled-task.sh
  sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/script.sh
  sudo chmod +x script.sh scheduled-task.sh
- sudo docker build -t apachemodified .
- sudo docker run -d --name apache-server -p 80:80 apachemodified
+ sudo docker build -t apacheserver .
+ sudo docker run -d --name apache-server -p 80:80 apacheserver
  
  
  EOF
