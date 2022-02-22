@@ -1,0 +1,86 @@
+
+
+# docker-compose.yml
+
+version: "3"
+
+services:
+    web1:
+        build: ./Ass
+        volumes:
+            - ./Ass:/src
+        container_name: django
+#        ports:
+#            - "81:8000" # only if you need to access directly.
+    web2:
+        image: dockercloud/hello-world  #image or build 
+        container_name: web2
+    haproxy:
+        build: ./haproxy
+        container_name: haproxy
+        ports:
+           - "80:80"
+
+# haproxy.cfg
+
+ global
+ defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 5000ms
+    timeout server 5000ms
+
+frontend http-in
+    bind *:80
+
+    acl has_web1 path_beg /web1
+    acl has_web2 path_beg /web2
+
+    use_backend web1 if has_web1
+    use_backend web2 if has_web2
+
+    default_backend web1
+    
+backend web1
+    reqrep ^([^\ ]*\ /)web1[/]?(.*)   \1\2
+    server web1 web1:8000 check  # web1:80 is the service name
+
+backend web2
+    reqrep ^([^\ ]*\ /)web2[/]?(.*)   \1\2
+    server web2 web2:80 check
+    
+# haproxy Dockerfile
+
+FROM haproxy:1.7
+COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+
+
+# django Dockerfile
+
+FROM python:3.5
+ENV PYTHONBUFFERED 1
+ADD /requirements.txt /config/
+COPY start.sh /start.sh
+RUN pip install -r /config/requirements.txt
+EXPOSE 8000 # EXPOSE port 8000 to allow communication to/from server
+COPY /static /static
+RUN mkdir /src;
+WORKDIR /src
+CMD ["/start.sh"]
+
+
+# requirements.txt
+
+dependency==version
+Django==1.11.2
+...
+
+
+# start.sh
+
+echo Starting Gunicorn
+python3 manage.py collectstatic #if you need to serve static files, you need to set nginx as well
+exec gunicorn SiteName.wsgi:application \
+    --bind 0.0.0.0:8000 \
+    --workers 3
+# @cloud-eng-candidate-2
