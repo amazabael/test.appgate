@@ -1,0 +1,8 @@
+FROM haproxy:latest
+COPY haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+docker build -t haproxy-docker .
+docker run -it --rm --name haproxy-syntax-check haproxy-docker haproxy -c -f /usr/local/etc/haproxy/haproxy.cfg
+docker run -d --name haproxy haproxy-docker
+docker run -d --name haproxy -v /path/to/etc/haproxy:/usr/local/etc/haproxy:ro haproxy:latest
+docker kill -s HUP haproxy
+
