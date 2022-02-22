@@ -163,9 +163,9 @@ resource "aws_instance" "web-server" {
  sudo systemctl start docker
  sudo docker pull httpd:latest
  sudo yum install git -y
- sudo wget 
- sudo wget https://github.com/cloud-eng-candidate-2/test-candidate-2/blob/master/script.sh
- sudo wget https://github.com/cloud-eng-candidate-2/test-candidate-2/blob/master/scheduled-task.sh
+ sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/dockerfile
+ sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/scheduled-task.sh
+ sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/script.sh
  sudo chmod +x script.sh scheduled-task.sh
  sudo docker build -t apachemodified .
  sudo docker run -d --name apache-server -p 80:80 apachemodified
@@ -203,8 +203,9 @@ resource "aws_instance" "web-page" {
  sudo systemctl start docker
  sudo docker pull httpd:latest
  sudo yum install git -y
- sudo wget https://github.com/cloud-eng-candidate-2/test-candidate-2/blob/master/script.sh
- sudo wget https://github.com/cloud-eng-candidate-2/test-candidate-2/blob/master/scheduled-task.sh
+ sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/dockerfile
+ sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/scheduled-task.sh
+ sudo wget https://github.com/cloud-eng-candidate-2/test.appgate/blob/master/script.sh
  sudo chmod +x script.sh scheduled-task.sh
  sudo docker build -t apachemodified .
  sudo docker run -d --name apache-server -p 80:80 apachemodified
